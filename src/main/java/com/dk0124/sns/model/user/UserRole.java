@@ -1,4 +1,4 @@
-package com.dk0124.sns.domain.user;
+package com.dk0124.sns.model.user;
 
 import java.util.Arrays;
 
