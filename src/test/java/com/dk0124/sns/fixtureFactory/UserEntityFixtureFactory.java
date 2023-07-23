@@ -4,11 +4,8 @@ import static org.jeasy.random.FieldPredicates.*;
 
 import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
-import org.jeasy.random.randomizers.range.InstantRangeRandomizer;
-import org.jeasy.random.randomizers.range.IntegerRangeRandomizer;
-import org.jeasy.random.randomizers.range.LongRangeRandomizer;
 
-import com.dk0124.sns.domain.user.entity.UserEntity;
+import com.dk0124.sns.model.user.UserEntity;
 
 public class UserEntityFixtureFactory {
 

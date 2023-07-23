@@ -15,10 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.dk0124.sns.controller.dto.request.JoinRequestDto;
-import com.dk0124.sns.controller.dto.request.LoginRequestDto;
-import com.dk0124.sns.domain.user.UserRole;
-import com.dk0124.sns.domain.user.exception.EmailAlreadyExistException;
-import com.dk0124.sns.domain.user.service.UserService;
+import com.dk0124.sns.model.user.UserRole;
+import com.dk0124.sns.exception.user.EmailAlreadyExistException;
+import com.dk0124.sns.service.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -47,7 +46,7 @@ class UserControllerTest {
 		var loginReq = new JoinRequestDto(id, password, UserRole.USER);
 		var body = objectMapper.writeValueAsString(loginReq);
 
-		doNothing().when(userService).join(loginReq);
+		doNothing().when(userService).join(loginReq.email(), loginReq.password(), loginReq.userRole());
 
 		// when then
 		mvc.perform(post(USER_API_BASE + loginApiUrl)
@@ -68,7 +67,8 @@ class UserControllerTest {
 		var loginReq = new JoinRequestDto(id, password, UserRole.USER);
 		var body = objectMapper.writeValueAsString(loginReq);
 
-		doThrow(new EmailAlreadyExistException(HttpStatus.BAD_REQUEST)).when(userService).join(loginReq);
+		doThrow(new EmailAlreadyExistException(HttpStatus.BAD_REQUEST)).when(userService)
+			.join(loginReq.email(), loginReq.password(), loginReq.userRole());
 
 		mvc.perform(post(USER_API_BASE + loginApiUrl)
 				.contentType(MediaType.APPLICATION_JSON)
