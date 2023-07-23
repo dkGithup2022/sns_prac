@@ -1,6 +1,29 @@
 
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/my_sns?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: kk23782378
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
 
 springdoc:
   api-docs:
     path: /api-docs
+
+jwt:
+  secret: 123abc123qq9999999999999999999999999999abcdefghijklmnop
+  accessTokenLifetime: 60000
+  refreshTokenLifeTime: 9999999
+  cookiePath: cookiecookie
+
+
