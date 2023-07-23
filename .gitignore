@@ -183,3 +183,12 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/java,macos,maven,react,intellij+all
+
+
+
+## application.yml
+*application.yml
+
+
+## iml
+*.iml
