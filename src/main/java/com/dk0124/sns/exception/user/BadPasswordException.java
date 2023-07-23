@@ -1,4 +1,4 @@
-package com.dk0124.sns.domain.user.exception;
+package com.dk0124.sns.exception.user;
 
 import org.springframework.http.HttpStatus;
 

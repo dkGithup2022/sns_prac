@@ -14,7 +14,13 @@ public class ApplicationException extends RuntimeException {
 	public ApplicationException(HttpStatus httpStatus, String detailedMessage) {
 		this.httpStatus = httpStatus;
 		this.detailedMessage = detailedMessage;
+		this.message = ExceptionType.from(this.getClass()).getMessage();
+		this.errorCode = ExceptionType.from(this.getClass()).getErrorCode();
+	}
 
+	public ApplicationException(HttpStatus httpStatus) {
+		this.httpStatus = httpStatus;
+		this.detailedMessage = "";
 		this.message = ExceptionType.from(this.getClass()).getMessage();
 		this.errorCode = ExceptionType.from(this.getClass()).getErrorCode();
 	}

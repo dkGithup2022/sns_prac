@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 @Slf4j
 public class ExceptionHandler {
-
 	@org.springframework.web.bind.annotation.ExceptionHandler(ApplicationException.class)
 	public ResponseEntity<ErrorResponse> catchApplicationException(ApplicationException e) {
 		log.error("{}", e);
