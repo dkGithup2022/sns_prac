@@ -3,12 +3,14 @@ package com.dk0124.sns.model.post;
 import java.sql.Timestamp;
 
 import com.dk0124.sns.model.user.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Post {
 
 	private Long id = null;
