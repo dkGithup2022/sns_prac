@@ -1,6 +1,7 @@
 package com.dk0124.sns.model.post;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import org.hibernate.annotations.Where;
 
 import com.dk0124.sns.common.data.BaseEntity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,7 +33,7 @@ public class PostEntity extends BaseEntity {
 	@GeneratedValue
 	private Long id;
 
-	@Setter // insert, update 간결하게 하려고 일부러 없앰 .
+	@Setter
 	private String email;
 
 	@Setter
@@ -47,13 +49,12 @@ public class PostEntity extends BaseEntity {
 
 	private Timestamp deletedAt = null;
 
-	// 강의 보고 따라하는데, 이 방식이 setter 가 많아서 구려보임
-	public static PostEntity of(String email, String title, String content, PostType postType) {
-		PostEntity entity = new PostEntity();
-		entity.setEmail(email);
-		entity.setTitle(title);
-		entity.setContent(content);
-		entity.setPostType(postType);
-		return entity;
+	@Builder
+	public PostEntity(String email, String title, String content, PostType postType) {
+		this.email = Objects.requireNonNull(email);
+		this.title = Objects.requireNonNull(title);
+		this.content = Objects.requireNonNull(content);
+		this.postType = Objects.requireNonNull(postType);
 	}
+
 }

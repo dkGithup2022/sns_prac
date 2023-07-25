@@ -87,7 +87,9 @@ class PostControllerTest {
 		var body = objectMapper.writeValueAsString(req);
 
 		when(postService.modify(id, title, content, postType)).thenReturn(
-			Post.fromEntity(PostEntity.of("email", title, content, postType))
+			Post.fromEntity(
+				PostEntity.builder().email("email").title("title").content("content").postType(postType).build()
+			)
 		);
 
 		mvc.perform(

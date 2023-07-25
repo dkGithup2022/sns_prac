@@ -16,6 +16,7 @@ import org.hibernate.annotations.Where;
 
 import com.dk0124.sns.common.data.BaseEntity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +30,7 @@ public class UserEntity extends BaseEntity {
 	@GeneratedValue
 	@Column(name = "user_id")
 	private Long id;
+
 	@Setter
 	private String email;
 	@Setter
@@ -39,12 +41,11 @@ public class UserEntity extends BaseEntity {
 
 	private Timestamp deletedAt;
 
-	public static UserEntity of(String email, String password, UserRole userRole){
-		var userEntity = new UserEntity();
-		userEntity.setEmail(Objects.requireNonNull(email));
-		userEntity.setPassword(Objects.requireNonNull(password));
-		userEntity.setUserRole(userRole);
-		return userEntity;
+	@Builder
+	public UserEntity(String email, String password, UserRole userRole) {
+		this.email = Objects.requireNonNull(email);
+		this.password = Objects.requireNonNull(password);
+		this.userRole = Objects.requireNonNull(userRole);
 	}
 
 }

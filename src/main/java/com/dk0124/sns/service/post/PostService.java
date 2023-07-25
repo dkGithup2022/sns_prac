@@ -24,7 +24,9 @@ public class PostService {
 	public Post create(String email, String title, String content, PostType postType) {
 		validateCurrentEmail(email);
 
-		var post = postRepository.save(PostEntity.of(email, title, content, postType));
+		var post = postRepository.save(
+			PostEntity.builder().email(email).title(title).content(content).postType(postType).build()
+		);
 		return Post.fromEntity(post);
 	}
 

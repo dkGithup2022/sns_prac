@@ -32,7 +32,7 @@ class PostServiceTest {
 		var title = "title";
 		var content = "content";
 		var postType = PostType.NORMAL;
-		var postEntity = PostEntity.of(email, title, content, postType);
+		var postEntity = PostEntity.builder().email(email).title(title).content(content).postType(postType).build();
 
 		when(postRepository.save(postEntity)).thenReturn(postEntity);
 
@@ -46,7 +46,7 @@ class PostServiceTest {
 		var title = "title";
 		var content = "content";
 		var postType = PostType.NORMAL;
-		var postEntity = PostEntity.of(email, title, content, postType);
+		var postEntity = PostEntity.builder().email(email).title(title).content(content).postType(postType).build();
 
 		when(postRepository.save(postEntity)).thenReturn(postEntity);
 		assertThrows(RuntimeException.class, () -> postService.create(email, title, content, postType));
@@ -55,20 +55,27 @@ class PostServiceTest {
 	@Test
 	public void 하나_읽기_성공() {
 		var id = 1L;
-		var entity = PostEntity.of("email", "title", "content", PostType.NORMAL);
+		var email = "email";
+		var title = "title";
+		var content = "content";
+		var postType = PostType.NORMAL;
+		var postEntity = PostEntity.builder().email(email).title(title).content(content).postType(postType).build();
 
-		when(postRepository.findById(id)).thenReturn(Optional.of(entity));
-		assertEquals(entity.getContent(), postService.findOne(id).getContent());
+		when(postRepository.findById(id)).thenReturn(Optional.of(postEntity));
+		assertEquals(postEntity.getContent(), postService.findOne(id).getContent());
 	}
 
 	@Test
 	@WithMockUser(value = "email", username = "email")
 	public void 지우기_성공() {
 		var id = 1L;
-		var entity = PostEntity.of("email", "title", "content", PostType.NORMAL);
+		var email = "email";
+		var title = "title";
+		var content = "content";
+		var postType = PostType.NORMAL;
+		var postEntity = PostEntity.builder().email(email).title(title).content(content).postType(postType).build();
 
-		when(postRepository.findById(id)).thenReturn(Optional.of(entity));
-
+		when(postRepository.findById(id)).thenReturn(Optional.of(postEntity));
 		doNothing().when(postRepository).deleteById(id);
 	}
 
@@ -76,9 +83,13 @@ class PostServiceTest {
 	@WithMockUser(value = "email", username = "i'm on attack")
 	public void 지우기_실패_유저정보_틀림() {
 		var id = 1L;
-		var entity = PostEntity.of("email", "title", "content", PostType.NORMAL);
+		var email = "email";
+		var title = "title";
+		var content = "content";
+		var postType = PostType.NORMAL;
+		var postEntity = PostEntity.builder().email(email).title(title).content(content).postType(postType).build();
 
-		when(postRepository.findById(id)).thenReturn(Optional.of(entity));
+		when(postRepository.findById(id)).thenReturn(Optional.of(postEntity));
 
 		assertThrows(RuntimeException.class, () -> postService.delete(id));
 	}
@@ -100,7 +111,7 @@ class PostServiceTest {
 		var title = "title";
 		var content = "content";
 		var postType = PostType.NORMAL;
-		var postEntity = PostEntity.of(email, title, content, postType);
+		var postEntity = PostEntity.builder().email(email).title(title).content(content).postType(postType).build();
 
 		var titleChanged = "title changed";
 		var contentChanged = "content changed";
@@ -121,7 +132,7 @@ class PostServiceTest {
 		var title = "title";
 		var content = "content";
 		var postType = PostType.NORMAL;
-		var postEntity = PostEntity.of(email, title, content, postType);
+		var postEntity = PostEntity.builder().email(email).title(title).content(content).postType(postType).build();
 
 		when(postRepository.findById(id)).thenReturn(Optional.of(postEntity));
 

@@ -32,10 +32,8 @@ public class UserController {
 	// 그리고 RDMS 쓰면 여기에 transactional 붙여도 될듯?
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody LoginRequestDto loginRequestDto) {
-
 		String accessToken = authService.login(loginRequestDto.email(), loginRequestDto.password());
 		String refreshToken = authService.publishRefreshToken(loginRequestDto.email());
-
 		return ResponseEntity.ok().body(new LoginResponseDto(accessToken, refreshToken));
 	}
 
@@ -47,8 +45,6 @@ public class UserController {
 
 	@PostMapping("/token/refresh")
 	public ResponseEntity refreshAccessToken(@RequestBody RefreshRequestDto refreshRequestDto) {
-
-		System.out.println("REQ: " + refreshRequestDto);
 		var accessToken = authService.refreshAccessToken(refreshRequestDto.refreshToken());
 		return ResponseEntity.ok().body(new RefreshResponseDto(accessToken, refreshRequestDto.refreshToken()));
 	}
