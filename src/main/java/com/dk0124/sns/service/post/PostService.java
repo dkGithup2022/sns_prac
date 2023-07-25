@@ -1,5 +1,8 @@
 package com.dk0124.sns.service.post;
 
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,6 +12,7 @@ import com.dk0124.sns.model.post.PostType;
 import com.dk0124.sns.repository.post.PostEntityRepository;
 import com.dk0124.sns.util.SecurityUtils;
 
+import jdk.jfr.Category;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -31,14 +35,21 @@ public class PostService {
 		));
 	}
 
-	public void list() {
-	} // should be dsl query
+	public List<Post> list(Pageable pageable) {
+		return postRepository.findAll(pageable).stream().map(Post::fromEntity).toList();
+	}
 
+	/*
+	TODO : DSL 쿼리 미리 기록
+	public List<Post> search(Pageable pageable, PostType postType, Sor)
+
+
+	 */
 	public void delete(Long id) {
 		var post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("포스트 없음"));
 
 		validateCurrentEmail(post.getEmail());
-		postRepository.findById(id);
+		postRepository.deleteById(id);
 	}
 
 	@Transactional
