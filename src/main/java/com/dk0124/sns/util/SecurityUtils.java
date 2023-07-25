@@ -23,10 +23,6 @@ public class SecurityUtils {
 			return false;
 		}
 
-		var token = (UsernamePasswordAuthenticationToken)authentication;
-		var claims = (User) token.getPrincipal();
-		var currentEmail = claims.getUsername();
-
-		return currentEmail.equals(inputEmail);
+		return authentication.getName().equals(inputEmail);
 	}
 }

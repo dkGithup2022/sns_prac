@@ -75,7 +75,6 @@ class PostControllerTest {
 	}
 
 	// 실패 테스트는 필터 에러 핸들러 만들고 하기 ... ㅎ;
-
 	@Test
 	@WithMockUser(value = "email", username = "email")
 	public void 업데이트_성공() throws Exception {

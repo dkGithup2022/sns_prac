@@ -28,13 +28,11 @@ public class JwtFilter extends OncePerRequestFilter {
 		var header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
 		try {
-			// not valid
 			if (header == null || !header.startsWith("Bearer")) {
 				log.error("Authorization Header does not start with Bearer {}", request.getRequestURI());
 				chain.doFilter(request, response);
 				return;
 			}
-
 
 			var token = header.substring(7);
 			var claims = JwtUtils.extractClaims(token);
@@ -44,17 +42,15 @@ public class JwtFilter extends OncePerRequestFilter {
 				return;
 			}
 
-			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+			var authentication = new UsernamePasswordAuthenticationToken(
 				claims.get("email", String.class), null,
 				List.of(new SimpleGrantedAuthority(claims.get("role", String.class)))
 			);
 
-
-
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		}catch (Exception e){
+		} catch (Exception e) {
 			chain.doFilter(request, response);
 			return;
 		}
