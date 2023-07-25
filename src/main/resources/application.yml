@@ -16,10 +16,6 @@ spring:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
 
-springdoc:
-  api-docs:
-    path: /api-docs
-
 jwt:
   secret: 123abc123qq9999999999999999999999999999abcdefghijklmnop
   accessTokenLifetime: 60000
