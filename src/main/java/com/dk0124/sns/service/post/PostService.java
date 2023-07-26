@@ -9,7 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dk0124.sns.model.post.Post;
 import com.dk0124.sns.model.post.PostEntity;
 import com.dk0124.sns.model.post.PostType;
+import com.dk0124.sns.repository.follow.FollowEntityRepository;
 import com.dk0124.sns.repository.post.PostEntityRepository;
+import com.dk0124.sns.repository.user.UserEntityRepository;
+import com.dk0124.sns.service.follow.FollowService;
 import com.dk0124.sns.util.SecurityUtils;
 
 import jdk.jfr.Category;
@@ -20,13 +23,24 @@ import lombok.RequiredArgsConstructor;
 public class PostService {
 
 	private final PostEntityRepository postRepository;
+	private final UserEntityRepository userRepository;
+	private final FollowEntityRepository followEntityRepository;
 
+	@Transactional
 	public Post create(String email, String title, String content, PostType postType) {
 		validateCurrentEmail(email);
+
+
+		/* 유저를 팔로우한 유저 찾기 */
+		var user = userRepository.findByEmail(email).get();
+		var followers = followEntityRepository.findByToId(user.getId());
+
+
 
 		var post = postRepository.save(
 			PostEntity.builder().email(email).title(title).content(content).postType(postType).build()
 		);
+
 		return Post.fromEntity(post);
 	}
 
@@ -44,9 +58,8 @@ public class PostService {
 	/*
 	TODO : DSL 쿼리 미리 기록
 	public List<Post> search(Pageable pageable, PostType postType, Sor)
-
-
 	 */
+
 	public void delete(Long id) {
 		var post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("포스트 없음"));
 
