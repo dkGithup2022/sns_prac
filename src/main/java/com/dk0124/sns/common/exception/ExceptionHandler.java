@@ -1,5 +1,6 @@
 package com.dk0124.sns.common.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,6 +14,12 @@ public class ExceptionHandler {
 		log.error("{}", e);
 		var errorBody = buildErrorBody(e);
 		return ResponseEntity.status(e.getHttpStatus()).body(errorBody);
+	}
+
+	@org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+	public ErrorResponse catchUnhandledException(Exception e) {
+		log.error("{}", e);
+		return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.getMessage(), "");
 	}
 
 	private ErrorResponse buildErrorBody(ApplicationException e) {
