@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.dk0124.sns.controller.dto.request.ModifyPostRequestDto;
 import com.dk0124.sns.controller.dto.response.CreatePostResponseDto;
 import com.dk0124.sns.model.post.Post;
 import com.dk0124.sns.service.post.PostService;
+import com.dk0124.sns.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -62,7 +64,8 @@ public class PostController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity modify(@PathVariable Long id, @RequestBody ModifyPostRequestDto modifyPostRequestDto) {
+	public ResponseEntity modify(@PathVariable Long id, @RequestBody ModifyPostRequestDto modifyPostRequestDto, Authentication authentication) {
+
 		var post = postService.modify(
 			id,
 			modifyPostRequestDto.title(),
@@ -70,6 +73,13 @@ public class PostController {
 			modifyPostRequestDto.postType()
 		);
 		return ResponseEntity.ok().body(post);
+	}
+
+
+	private void validateCurrentEmail(String email) {
+		// 에러 생성하기
+		if (!SecurityUtils.isUserEmailAuthorized(email))
+			throw new RuntimeException("인증 실패");
 	}
 
 }
