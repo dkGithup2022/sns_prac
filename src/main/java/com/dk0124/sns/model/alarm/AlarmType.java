@@ -2,8 +2,6 @@ package com.dk0124.sns.model.alarm;
 
 import java.util.Arrays;
 
-import com.dk0124.sns.model.post.PostType;
-
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

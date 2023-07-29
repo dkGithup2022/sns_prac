@@ -6,9 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dk0124.sns.model.alarm.AlarmEntity;
+import com.dk0124.sns.model.alarm.AlarmType;
+import com.dk0124.sns.model.follow.FollowEntity;
 import com.dk0124.sns.model.post.Post;
 import com.dk0124.sns.model.post.PostEntity;
 import com.dk0124.sns.model.post.PostType;
+import com.dk0124.sns.repository.alarm.AlarmEntityRepository;
 import com.dk0124.sns.repository.follow.FollowEntityRepository;
 import com.dk0124.sns.repository.post.PostEntityRepository;
 import com.dk0124.sns.repository.user.UserEntityRepository;
@@ -25,17 +29,21 @@ public class PostService {
 	private final PostEntityRepository postRepository;
 	private final UserEntityRepository userRepository;
 	private final FollowEntityRepository followEntityRepository;
+	private final AlarmEntityRepository alarmRepository;
 
 	@Transactional
 	public Post create(String email, String title, String content, PostType postType) {
 		validateCurrentEmail(email);
 
 
-		/* 유저를 팔로우한 유저 찾기 */
+		/* 유저를 팔로우한 유저 찾아서 알람 생성  */
+		/* 이 부분을 이벤트로 날려버리고 싶음 */
 		var user = userRepository.findByEmail(email).get();
 		var followers = followEntityRepository.findByToId(user.getId());
 
-
+		for (var follower : followers)
+			alarmRepository.save(
+				AlarmEntity.builder().toId(follower.getFromId()).alarmType(AlarmType.NEW_POST).build());
 
 		var post = postRepository.save(
 			PostEntity.builder().email(email).title(title).content(content).postType(postType).build()
