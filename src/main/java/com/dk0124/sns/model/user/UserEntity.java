@@ -18,6 +18,7 @@ import com.dk0124.sns.common.data.BaseEntity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -25,6 +26,7 @@ import lombok.Setter;
 @Table(name = "\"user\"")
 @SQLDelete(sql = "UPDATE \"user\" SET deleted_at = NOW() WHERE id=?")
 @Where(clause = "deleted_at is NULL")
+@NoArgsConstructor
 public class UserEntity extends BaseEntity {
 	@Id
 	@GeneratedValue

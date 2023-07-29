@@ -16,18 +16,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 
-	private final UserEntityRepository userEntityRepository;
+	private final UserEntityRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public void join(String email, String password, UserRole role) {
 
-		userEntityRepository.findByEmail(email).ifPresent(
+		userRepository.findByEmail(email).ifPresent(
 			it -> {
 				throw new EmailAlreadyExistException(HttpStatus.CONFLICT);
 			}
 		);
-		userEntityRepository.save(UserEntity.of(email, passwordEncoder.encode(password), role));
+
+		userRepository.save(
+			UserEntity.builder().email(email).password(passwordEncoder.encode(password)).userRole(role).build()
+		);
 	}
 
 }

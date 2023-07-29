@@ -28,9 +28,12 @@ public class AuthService {
 	@Value("${jwt.refreshTokenLifeTime}")
 	private Long REFRESH_TOKEN_LIFE_TIME;
 
-	public String login(String email, String password) {
+	public LoginSuccessDto login(String email, String password) {
 		checkEmailAndPassword(email, password);
-		return JwtUtils.publishAccessToken(User.fromEntity(userEntityRepository.findByEmail(email).get()));
+		var user = userEntityRepository.findByEmail(email).get();
+		var accessToken = JwtUtils.publishAccessToken(User.fromEntity(user));
+		var refreshToken = publishRefreshToken(email);
+		return new LoginSuccessDto(user.getId(), accessToken, refreshToken);
 	}
 
 	private void checkEmailAndPassword(String email, String password) {
