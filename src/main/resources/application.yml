@@ -1,10 +1,21 @@
 
 spring:
+
+  main:
+    allow-bean-definition-overriding: true
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/my_sns?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: kk23782378
+
+  servlet:
+    session:
+      timeout: 54000
+      cookie:
+        http-only: true
+
 
   jpa:
     database: mysql
@@ -20,12 +31,16 @@ spring:
       host: localhost
       port: 6379
       timeout: 600000
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 10
+          min-idle: 2
 
 
-jwt:
-  secret: 123abc123qq9999999999999999999999999999abcdefghijklmnop
-  accessTokenLifetime: 60000
-  refreshTokenLifeTime: 9999999
-  cookiePath: cookiecookie
-
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: spring:session
 

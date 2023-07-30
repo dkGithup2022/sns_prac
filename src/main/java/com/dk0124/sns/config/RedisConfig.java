@@ -11,12 +11,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.convert.RedisCustomConversions;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 
 import com.dk0124.sns.config.redisConverter.BytesToTimestampConverter;
 import com.dk0124.sns.config.redisConverter.TimestampToBytesConverter;
 
 @Configuration
 @EnableRedisRepositories
+@EnableSpringHttpSession
 public class RedisConfig {
 
 	@Bean

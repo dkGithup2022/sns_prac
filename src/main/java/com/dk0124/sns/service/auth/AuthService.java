@@ -13,7 +13,6 @@ import com.dk0124.sns.model.user.User;
 import com.dk0124.sns.model.user.auth.RefreshToken;
 import com.dk0124.sns.repository.user.RefreshTokenRepository;
 import com.dk0124.sns.repository.user.UserEntityRepository;
-import com.dk0124.sns.util.JwtUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,15 +24,11 @@ public class AuthService {
 	private final UserEntityRepository userEntityRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
 
-	@Value("${jwt.refreshTokenLifeTime}")
-	private Long REFRESH_TOKEN_LIFE_TIME;
 
-	public LoginSuccessDto login(String email, String password) {
+	public User login(String email, String password) {
 		checkEmailAndPassword(email, password);
 		var user = userEntityRepository.findByEmail(email).get();
-		var accessToken = JwtUtils.publishAccessToken(User.fromEntity(user));
-		var refreshToken = publishRefreshToken(email);
-		return new LoginSuccessDto(user.getId(), accessToken, refreshToken);
+		return User.fromEntity(user);
 	}
 
 	private void checkEmailAndPassword(String email, String password) {
@@ -45,7 +40,7 @@ public class AuthService {
 			throw new PasswordNotMatchException(HttpStatus.BAD_REQUEST);
 		}
 	}
-
+/*
 	public String publishRefreshToken(String email) {
 		var user = User.fromEntity(userEntityRepository.findByEmail(email)
 			.orElseThrow(() -> new EmailNotExistException(HttpStatus.NO_CONTENT))
@@ -57,6 +52,9 @@ public class AuthService {
 
 		return refreshToken;
 	}
+
+ */
+	/*
 
 	public String refreshAccessToken(String token) {
 		var refreshToken = refreshTokenRepository.findByToken(token).orElseThrow(
@@ -75,5 +73,7 @@ public class AuthService {
 				userEntityRepository.findByEmail(refreshToken.getEmail()).get())
 		);
 	}
+
+	 */
 
 }
