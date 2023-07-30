@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dk0124.sns.model.alarm.AlarmEntity;
 import com.dk0124.sns.model.alarm.AlarmType;
-import com.dk0124.sns.model.follow.FollowEntity;
 import com.dk0124.sns.model.post.Post;
 import com.dk0124.sns.model.post.PostEntity;
 import com.dk0124.sns.model.post.PostType;
@@ -16,10 +15,8 @@ import com.dk0124.sns.repository.alarm.AlarmEntityRepository;
 import com.dk0124.sns.repository.follow.FollowEntityRepository;
 import com.dk0124.sns.repository.post.PostEntityRepository;
 import com.dk0124.sns.repository.user.UserEntityRepository;
-import com.dk0124.sns.service.follow.FollowService;
 import com.dk0124.sns.util.SecurityUtils;
 
-import jdk.jfr.Category;
 import lombok.RequiredArgsConstructor;
 
 @Service
