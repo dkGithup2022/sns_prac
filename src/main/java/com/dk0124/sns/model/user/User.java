@@ -2,6 +2,10 @@ package com.dk0124.sns.model.user;
 
 import java.sql.Timestamp;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -12,8 +16,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@RedisHash("User")
 public class User {
+	@Id
 	private Long id;
+	@Indexed
 	private String email;
 	private String password;
 	private Timestamp deletedAt;
